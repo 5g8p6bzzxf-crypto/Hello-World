@@ -80,3 +80,40 @@ body:before{opacity:.12;background-image:linear-gradient(rgba(139,202,187,.045) 
 ::selection{background:rgba(112,240,192,.28);color:#fff}
 @media(max-width:760px){.section-wrap,.site-header{width:calc(100% - 32px)}.site-header{height:72px}.hero-section{padding-top:58px;padding-bottom:62px;gap:36px}.hero-copy h1{font-size:clamp(43px,12vw,62px);letter-spacing:-2.8px}.experience-section,.tools-section,.about-section{padding-top:48px;padding-bottom:52px}.section-heading h2{letter-spacing:-1.4px}.playground{border-radius:18px}.playground-main{padding:22px}.tool-card,.feature-card{padding:20px;border-radius:17px}.playground-aside{border-left:0;border-top:1px solid var(--line)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Alternate palette: graphite + violet + electric blue */
+:root{color-scheme:dark;--bg:#080a12;--surface:#111421;--surface-2:#171b2b;--line:rgba(174,164,255,.16);--text:#f5f5ff;--muted:#a2a5bd;--purple:#a78bfa;--blue:#60a5fa;--green:#c4b5fd}
+body{background:radial-gradient(ellipse at 82% 0%,rgba(91,55,190,.2),transparent 35%),radial-gradient(ellipse at 0% 34%,rgba(28,88,168,.15),transparent 32%),#080a12;color:var(--text)}
+body:before{opacity:.12;background-image:linear-gradient(rgba(177,170,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(177,170,255,.045) 1px,transparent 1px);background-size:38px 38px}
+.brand-mark{border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.12)}
+.brand-mark span{background:var(--purple)}
+.brand-accent{color:#c8c9dd}
+.nav-links a:hover{background:rgba(167,139,250,.1);color:var(--purple)}
+.gradient-text{background:linear-gradient(100deg,#a78bfa 5%,#60a5fa 58%,#e0b7ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.button-primary{background:linear-gradient(120deg,#a78bfa,#60a5fa);color:#0a0b16;border:0;box-shadow:0 8px 28px rgba(126,94,238,.2);font-weight:800}
+.button-primary:hover{box-shadow:0 12px 34px rgba(126,94,238,.3)}
+.button-quiet:hover{background:rgba(167,139,250,.09);border-color:rgba(167,139,250,.35)}
+.code-window{border-color:rgba(167,139,250,.25);background:linear-gradient(145deg,rgba(23,25,43,.97),rgba(10,12,23,.98))}
+.floating-chip{border-color:rgba(167,139,250,.24);background:rgba(14,16,31,.94)}
+.playground,.history-panel{border-color:var(--line);background:linear-gradient(135deg,rgba(17,20,33,.98),rgba(12,14,26,.96))}
+.playground-aside{background:linear-gradient(155deg,rgba(167,139,250,.1),rgba(96,165,250,.04));border-left-color:var(--line)}
+.input-wrap input,.greeting-options select,.tool-card input:not([type=checkbox]):not([type=color]):not([type=range]),.tool-card textarea,.tool-card select{background:#0b0d19;border-color:rgba(174,164,255,.22);color:var(--text)}
+.input-wrap input:focus,.tool-card input:focus,.tool-card textarea:focus,.tool-card select:focus{outline:2px solid rgba(167,139,250,.4);border-color:var(--purple)}
+.greeting-result{border-color:rgba(167,139,250,.25);background:linear-gradient(120deg,rgba(167,139,250,.08),rgba(96,165,250,.04))}
+.result-icon,.section-kicker,.hero-eyebrow,.mini-action,.back-top{color:var(--purple)}
+.tool-card,.feature-card{border-color:rgba(174,164,255,.15);background:linear-gradient(155deg,rgba(19,22,38,.97),rgba(12,14,26,.98))}
+.tool-card:hover,.feature-card:hover{border-color:rgba(167,139,250,.34)}
+.tool-icon{background:rgba(167,139,250,.12)!important;color:var(--purple)!important;border-color:rgba(167,139,250,.17)}
+.clock-display,.pomodoro-display{color:var(--purple)}
+.snippet-output,.calculator{border-color:var(--line);background:#0a0c18}
+.calculator-grid button{border-color:rgba(174,164,255,.12);background:#191c30;color:#f0efff}
+.calculator-grid button:hover{background:#252943}
+.calculator-grid .calc-operator{background:rgba(167,139,250,.14);color:var(--purple)}
+.calculator-grid .calc-equals{background:var(--purple);color:#0b0b16}
+.pomodoro-track{background:#25283d}
+.pomodoro-track span{background:linear-gradient(90deg,#a78bfa,#60a5fa)}
+.tools-privacy{border-color:var(--line);background:rgba(167,139,250,.04);color:#b6b7ce}
+.cta-card{border-color:rgba(167,139,250,.24);background:radial-gradient(ellipse at 80% 15%,rgba(167,139,250,.15),transparent 38%),linear-gradient(130deg,#17182c,#0c0e1c)}
+.cta-symbol{color:rgba(167,139,250,.15)}
+.site-footer{border-top-color:var(--line)}
+::selection{background:rgba(167,139,250,.3);color:#fff}
