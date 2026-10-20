@@ -1,0 +1,92 @@
+# Hello World — Python Starter Project
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-unittest-success)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+A small, well-structured Python project that grows the original **Hello World** example into a practical starter repository. It includes a command-line interface, automated tests, project specifications, contribution guidance, and a roadmap.
+
+## What it does
+
+- Prints a friendly greeting.
+- Supports a custom name from the command line.
+- Can return the greeting as plain text or JSON.
+- Includes automated tests using Python's standard library.
+- Documents scope, requirements, architecture, and planned improvements.
+
+## Quick start
+
+**Requirements:** Python 3.10 or newer. No third-party packages are required.
+
+```bash
+git clone https://github.com/5g8p6bzzxf-crypto/Hello-World.git
+cd Hello-World
+python hello_world.py
+```
+
+Expected output:
+
+```text
+Hello, World!
+```
+
+Personalized greeting:
+
+```bash
+python hello_world.py --name Pablo
+```
+
+JSON output:
+
+```bash
+python hello_world.py --name Pablo --format json
+```
+
+## Run the tests
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+## Project structure
+
+```text
+Hello-World/
+├── .github/
+│   └── ISSUE_TEMPLATE/
+│       ├── bug_report.md
+│       └── feature_request.md
+├── docs/
+│   ├── ROADMAP.md
+│   └── SPEC.md
+├── tests/
+│   └── test_hello_world.py
+├── .gitignore
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── pyproject.toml
+└── hello_world.py
+```
+
+## Documentation
+
+- [Functional and technical specification](docs/SPEC.md)
+- [Project roadmap](docs/ROADMAP.md)
+- [Contribution guidelines](CONTRIBUTING.md)
+
+## Design principles
+
+1. **Simple by default:** the basic command works without arguments.
+2. **Standard library first:** no runtime dependencies.
+3. **Testable:** greeting logic is separate from command-line parsing.
+4. **Predictable output:** text is the default; JSON is explicit.
+5. **Open development:** changes are documented and tracked in Git.
+
+## Current status
+
+The starter implementation and repository documentation are in place. See the roadmap for possible next steps. Features not implemented yet are listed as planned rather than presented as complete.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE).
