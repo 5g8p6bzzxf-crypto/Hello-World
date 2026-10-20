@@ -116,3 +116,12 @@ Then open http://localhost:8000.
 Follow the full guide in [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md). In short, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/(root)`, then save. The public URL becomes available after Pages is enabled and deployment completes.
 
 See [the web interface specification](docs/WEB_SPEC.md) for behavior and acceptance criteria.
+
+
+## Additional web features
+
+- Light and dark theme toggle with a saved local preference.
+- Four greeting styles, random greeting suggestions, and a reset button.
+- Character counter and greeting history stored locally in your browser.
+- Restore previous greetings, clear history, or export it as JSON.
+- The history is local to the browser; it is not uploaded to the repository or a server.
