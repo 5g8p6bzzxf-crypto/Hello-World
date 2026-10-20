@@ -328,9 +328,9 @@
       if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") new Notification("Pomodoro concluído", { body: "Seu bloco de tempo terminou." });
     }
   }
-  $("[data-pomo-minutes]").forEach(button => button.addEventListener("click", () => {
+  $$("[data-pomo-minutes]").forEach(button => button.addEventListener("click", () => {
     pomoRunning = false; pomoDuration = Number(button.dataset.pomoMinutes) * 60; pomoRemaining = pomoDuration;
-    $("[data-pomo-minutes]").forEach(b => b.classList.toggle("is-active", b === button));
+    $$("[data-pomo-minutes]").forEach(b => b.classList.toggle("is-active", b === button));
     setText("#pomodoro-start", "Começar foco"); setText("#pomodoro-status", "Novo bloco pronto."); renderPomodoro();
   }));
   on("#pomodoro-start", "click", () => {
@@ -351,7 +351,7 @@
     if (operator === "/") return b === 0 ? NaN : a / b;
     return b;
   }
-  $("[data-calc]").forEach(button => button.addEventListener("click", () => {
+  $$("[data-calc]").forEach(button => button.addEventListener("click", () => {
     const action = button.dataset.calc, value = button.dataset.value;
     if (action === "clear") { calcCurrent = "0"; calcStored = null; calcOperator = null; calcNewEntry = true; setText("#calc-feedback", ""); }
     else if (action === "digit") { if (calcNewEntry || calcCurrent === "0" || calcCurrent === "Erro") calcCurrent = value; else if (calcCurrent.replace("-","").length < 14) calcCurrent += value; calcNewEntry = false; }
