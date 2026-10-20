@@ -37,3 +37,13 @@ The page is static and does not send names to a server. Clipboard access may req
 - Recent greeting history, limited to 12 unique messages and stored in local browser storage.
 - Restore a previous greeting, clear history, or export history to a JSON file.
 - History and theme settings stay in the current browser and are not sent to a server.
+
+
+## Developer toolbox
+- Text converter supports uppercase, lowercase, and sentence/title-style capitalization.
+- HEX color laboratory validates six-digit hexadecimal colors, updates a preview, and offers copy.
+- Notes autosave in local browser storage and can be downloaded as plain text.
+- Local clock displays browser-local time and date.
+- Stopwatch supports start, pause, resume, and reset.
+- Code snippet generator offers examples for JavaScript, Python, HTML, and Bash.
+- These features run client-side; there is no account system or server-side data storage.
