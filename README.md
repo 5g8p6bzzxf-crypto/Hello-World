@@ -130,3 +130,8 @@ See [the web interface specification](docs/WEB_SPEC.md) for behavior and accepta
 ## Developer toolbox
 
 The browser UI also includes a local text case converter, HEX color laboratory, autosaving notes with `.txt` export, local clock, stopwatch, and copyable Hello World snippets for JavaScript, Python, HTML, and Bash. These tools run in the browser; notes are saved only in local browser storage.
+
+
+## Ferramentas adicionais
+
+A caixa de ferramentas inclui lista de tarefas com salvamento local, temporizador Pomodoro, calculadora básica e gerador de senhas. Os dados ficam no navegador; a calculadora não executa expressões arbitrárias.
