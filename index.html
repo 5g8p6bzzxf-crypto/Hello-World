@@ -23,6 +23,7 @@
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#experiencia">Experiência</a>
+      <a href="#ferramentas">Ferramentas</a>
       <a href="#historico">Histórico</a>
       <a href="#sobre">Sobre o projeto</a>
       <a class="github-link" href="https://github.com/5g8p6bzzxf-crypto/Hello-World" target="_blank" rel="noreferrer">
@@ -38,6 +39,7 @@
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação móvel" hidden>
     <a href="#experiencia">Experiência</a>
+    <a href="#ferramentas">Ferramentas</a>
     <a href="#historico">Histórico</a>
     <a href="#sobre">Sobre o projeto</a>
     <a href="https://github.com/5g8p6bzzxf-crypto/Hello-World" target="_blank" rel="noreferrer">Abrir no GitHub ↗</a>
@@ -122,6 +124,56 @@
         <div class="history-heading"><div><span class="section-kicker">03 / SUAS CRIAÇÕES</span><h3 id="history-title">Histórico de saudações</h3><p>As últimas mensagens ficam salvas neste navegador.</p></div><div class="history-actions"><button class="button button-quiet" id="export-history" type="button">Exportar JSON ↗</button><button class="button button-quiet" id="clear-history" type="button">Apagar histórico</button></div></div>
         <ul class="history-list" id="history-list"><li class="history-empty">Suas saudações aparecerão aqui depois que você criar uma.</li></ul>
       </div>
+    </section>
+
+
+    <section class="tools-section section-wrap" id="ferramentas">
+      <div class="section-heading">
+        <span class="section-kicker">02 / CAIXA DE FERRAMENTAS</span>
+        <h2>Pequenas ferramentas.<br><span class="gradient-text">Grandes atalhos.</span></h2>
+        <p>Utilitários rápidos para transformar texto, explorar cores, guardar ideias e acompanhar o tempo — tudo direto no navegador.</p>
+      </div>
+      <div class="tools-grid">
+        <article class="tool-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-violet">Aa</span><span class="tool-index">TOOL 01</span></div>
+          <h3>Transformador de texto</h3><p>Converta letras para maiúsculas, minúsculas ou título.</p>
+          <label for="text-tool-input">Seu texto</label><textarea id="text-tool-input" rows="3" maxlength="2000" placeholder="Digite ou cole um texto..."></textarea>
+          <div class="tool-actions"><button class="button button-quiet" type="button" data-text-mode="upper">MAIÚSCULAS</button><button class="button button-quiet" type="button" data-text-mode="lower">minúsculas</button><button class="button button-quiet" type="button" data-text-mode="title">Título</button></div>
+          <div class="tool-result-row"><span id="text-tool-count">0 caracteres</span><button class="mini-action" id="copy-text-result" type="button">Copiar resultado</button></div>
+          <p class="tool-feedback" id="text-tool-feedback" role="status"></p>
+        </article>
+        <article class="tool-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-blue">#</span><span class="tool-index">TOOL 02</span></div>
+          <h3>Laboratório de cores</h3><p>Escolha uma cor, visualize a amostra e copie o código HEX.</p>
+          <div class="color-stage" id="color-stage"><span>PRÉVIA DA COR</span></div>
+          <div class="color-controls"><label for="color-picker">Selecionar cor</label><input id="color-picker" type="color" value="#a78bfa"><label for="hex-value">Código HEX</label><input id="hex-value" type="text" value="#A78BFA" maxlength="7" spellcheck="false" aria-describedby="color-feedback"><button class="button button-primary" id="copy-hex" type="button">Copiar HEX ↗</button></div>
+          <p class="tool-feedback" id="color-feedback" role="status"></p>
+        </article>
+        <article class="tool-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-green">✎</span><span class="tool-index">TOOL 03</span></div>
+          <h3>Bloco de notas</h3><p>Rascunhe ideias. O texto é salvo automaticamente neste navegador.</p>
+          <label for="notes-input">Suas anotações</label><textarea id="notes-input" rows="6" maxlength="10000" placeholder="Uma ideia, uma tarefa, um próximo passo..."></textarea>
+          <div class="tool-result-row"><span id="notes-count">0 caracteres</span><span id="notes-status" role="status">Pronto para escrever</span></div>
+          <div class="tool-actions"><button class="button button-quiet" id="download-notes" type="button">Baixar .txt</button><button class="button button-quiet" id="clear-notes" type="button">Limpar notas</button></div>
+        </article>
+        <article class="tool-card timer-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-amber">◷</span><span class="tool-index">TOOL 04</span></div>
+          <h3>Relógio e cronômetro</h3><p>Veja a hora local e marque o tempo das suas tarefas.</p>
+          <div class="clock-display" id="clock-display" aria-live="off">--:--:--</div><div class="clock-date" id="clock-date">Carregando data...</div>
+          <div class="stopwatch-display" id="stopwatch-display" aria-live="off">00:00.0</div>
+          <div class="tool-actions"><button class="button button-primary" id="stopwatch-start" type="button">Iniciar</button><button class="button button-quiet" id="stopwatch-reset" type="button">Zerar</button></div>
+          <p class="tool-feedback" id="stopwatch-status" role="status">Cronômetro parado</p>
+        </article>
+        <article class="tool-card code-tool-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-violet">&lt;/&gt;</span><span class="tool-index">TOOL 05</span></div>
+          <h3>Gerador de snippet</h3><p>Gere um exemplo simples de Hello World em uma linguagem de sua escolha.</p>
+          <label for="snippet-language">Linguagem</label><select id="snippet-language"><option value="javascript">JavaScript</option><option value="python">Python</option><option value="html">HTML</option><option value="bash">Bash</option></select>
+          <pre class="snippet-output"><code id="snippet-code">console.log("Hello, World!");</code></pre>
+          <div class="tool-actions"><button class="button button-primary" id="copy-snippet" type="button">Copiar código ↗</button></div>
+          <p class="tool-feedback" id="snippet-feedback" role="status"></p>
+        </article>
+      </div>
+      <p class="tools-privacy"><span class="status-dot"></span> Privacidade: essas ferramentas funcionam localmente. Notas e preferências não são enviadas a um servidor.</p>
     </section>
 
     <section class="about-section section-wrap" id="sobre">
