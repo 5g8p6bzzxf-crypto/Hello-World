@@ -23,7 +23,7 @@
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#experiencia">Experiência</a>
-      <a href="#ferramentas">Ferramentas</a>
+      <a href="#ferramentas">Ferramentas</a><a href="#ferramentas">Novas ferramentas</a>
       <a href="#historico">Histórico</a>
       <a href="#sobre">Sobre o projeto</a>
       <a class="github-link" href="https://github.com/5g8p6bzzxf-crypto/Hello-World" target="_blank" rel="noreferrer">
@@ -171,6 +171,44 @@
           <pre class="snippet-output"><code id="snippet-code">console.log("Hello, World!");</code></pre>
           <div class="tool-actions"><button class="button button-primary" id="copy-snippet" type="button">Copiar código ↗</button></div>
           <p class="tool-feedback" id="snippet-feedback" role="status"></p>
+        </article>
+
+        <article class="tool-card todo-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-green">✓</span><span class="tool-index">TOOL 06</span></div>
+          <h3>Lista de tarefas</h3><p>Organize o que precisa fazer. Suas tarefas ficam salvas neste navegador.</p>
+          <form id="todo-form" class="todo-form"><label class="sr-only" for="todo-input">Nova tarefa</label><input id="todo-input" type="text" maxlength="120" placeholder="Ex.: estudar JavaScript..." autocomplete="off"><button class="button button-primary" type="submit">Adicionar +</button></form>
+          <div class="todo-summary"><span id="todo-count">0 tarefas</span><button class="mini-action" id="todo-clear-done" type="button">Limpar concluídas</button></div>
+          <ul class="todo-list" id="todo-list"><li class="todo-empty">Adicione sua primeira tarefa acima.</li></ul>
+          <p class="tool-feedback" id="todo-feedback" role="status"></p>
+        </article>
+        <article class="tool-card pomodoro-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-amber">◴</span><span class="tool-index">TOOL 07</span></div>
+          <h3>Foco Pomodoro</h3><p>Trabalhe em blocos de foco e faça pausas curtas para descansar.</p>
+          <div class="pomodoro-modes"><button type="button" class="pomodoro-mode is-active" data-pomo-minutes="25">Foco 25 min</button><button type="button" class="pomodoro-mode" data-pomo-minutes="5">Pausa 5 min</button><button type="button" class="pomodoro-mode" data-pomo-minutes="15">Pausa longa</button></div>
+          <div class="pomodoro-display" id="pomodoro-display" role="timer" aria-live="off">25:00</div>
+          <div class="pomodoro-track"><span id="pomodoro-progress"></span></div>
+          <div class="tool-actions"><button class="button button-primary" id="pomodoro-start" type="button">Começar foco</button><button class="button button-quiet" id="pomodoro-reset" type="button">Reiniciar</button></div>
+          <p class="tool-feedback" id="pomodoro-status" role="status">Pronto quando você estiver.</p>
+        </article>
+        <article class="tool-card calculator-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-blue">±</span><span class="tool-index">TOOL 08</span></div>
+          <h3>Calculadora rápida</h3><p>Faça contas básicas sem sair da página.</p>
+          <div class="calculator"><output class="calculator-display" id="calc-display" aria-live="polite">0</output><div class="calculator-grid">
+            <button type="button" data-calc="clear" class="calc-special">AC</button><button type="button" data-calc="sign" class="calc-special">±</button><button type="button" data-calc="percent" class="calc-special">%</button><button type="button" data-calc="operator" data-value="/" class="calc-operator">÷</button>
+            <button type="button" data-calc="digit" data-value="7">7</button><button type="button" data-calc="digit" data-value="8">8</button><button type="button" data-calc="digit" data-value="9">9</button><button type="button" data-calc="operator" data-value="*" class="calc-operator">×</button>
+            <button type="button" data-calc="digit" data-value="4">4</button><button type="button" data-calc="digit" data-value="5">5</button><button type="button" data-calc="digit" data-value="6">6</button><button type="button" data-calc="operator" data-value="-" class="calc-operator">−</button>
+            <button type="button" data-calc="digit" data-value="1">1</button><button type="button" data-calc="digit" data-value="2">2</button><button type="button" data-calc="digit" data-value="3">3</button><button type="button" data-calc="operator" data-value="+" class="calc-operator">+</button>
+            <button type="button" data-calc="digit" data-value="0" class="calc-zero">0</button><button type="button" data-calc="decimal">.</button><button type="button" data-calc="equals" class="calc-equals">=</button>
+          </div></div><p class="tool-feedback" id="calc-feedback" role="status"></p>
+        </article>
+        <article class="tool-card password-card">
+          <div class="tool-card-heading"><span class="tool-icon tool-violet">⌘</span><span class="tool-index">TOOL 09</span></div>
+          <h3>Gerador de senhas</h3><p>Crie uma senha aleatória localmente. Não é enviada para nenhum servidor.</p>
+          <label for="password-length">Comprimento: <strong id="password-length-label">16</strong> caracteres</label><input id="password-length" class="range-input" type="range" min="8" max="40" value="16">
+          <div class="password-options"><label><input id="password-upper" type="checkbox" checked> Maiúsculas</label><label><input id="password-lower" type="checkbox" checked> Minúsculas</label><label><input id="password-numbers" type="checkbox" checked> Números</label><label><input id="password-symbols" type="checkbox" checked> Símbolos</label></div>
+          <div class="password-output-row"><input id="password-output" type="text" readonly aria-label="Senha gerada" placeholder="Sua senha aparecerá aqui"><button type="button" class="button button-quiet" id="password-copy">Copiar</button></div>
+          <div class="tool-actions"><button class="button button-primary" id="password-generate" type="button">Gerar senha ↻</button></div>
+          <p class="tool-feedback" id="password-feedback" role="status"></p>
         </article>
       </div>
       <p class="tools-privacy"><span class="status-dot"></span> Privacidade: essas ferramentas funcionam localmente. Notas e preferências não são enviadas a um servidor.</p>
