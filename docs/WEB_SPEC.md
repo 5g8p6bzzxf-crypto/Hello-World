@@ -27,3 +27,13 @@ Provide a polished, responsive browser experience for the Hello World repository
 
 ## Implementation notes
 The page is static and does not send names to a server. Clipboard access may require HTTPS or localhost; if clipboard access is denied, the page displays a fallback message.
+
+
+## Additional interactive features
+- Light/dark theme toggle; preference is stored locally.
+- Four greeting styles: friendly, excited, formal, and developer.
+- Random suggestion button and clear/reset button.
+- Character counter for the name input.
+- Recent greeting history, limited to 12 unique messages and stored in local browser storage.
+- Restore a previous greeting, clear history, or export history to a JSON file.
+- History and theme settings stay in the current browser and are not sent to a server.
