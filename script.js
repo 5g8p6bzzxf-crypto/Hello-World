@@ -281,6 +281,128 @@
   on("#copy-snippet", "click", () => copyText($("#snippet-code")?.textContent || "", "#snippet-feedback", "Código copiado!"));
   updateSnippet();
 
+
+  // Lista de tarefas com armazenamento local
+  const TODO_KEY = "hello-world-todos-v1";
+  let todos = [];
+  try { const saved = JSON.parse(localStorage.getItem(TODO_KEY) || "[]"); if (Array.isArray(saved)) todos = saved.filter(t => t && typeof t.text === "string"); } catch {}
+  function saveTodos() { try { localStorage.setItem(TODO_KEY, JSON.stringify(todos)); } catch { setText("#todo-feedback", "Não foi possível salvar as tarefas neste navegador."); } }
+  function renderTodos() {
+    const list = $("#todo-list"); if (!list) return;
+    list.replaceChildren();
+    const done = todos.filter(t => t.done).length;
+    setText("#todo-count", todos.length + " tarefa(s) · " + done + " concluída(s)");
+    if (!todos.length) { const empty = document.createElement("li"); empty.className = "todo-empty"; empty.textContent = "Adicione sua primeira tarefa acima."; list.appendChild(empty); return; }
+    todos.forEach(todo => {
+      const item = document.createElement("li"); item.className = "todo-item" + (todo.done ? " is-done" : "");
+      const checkbox = document.createElement("input"); checkbox.type = "checkbox"; checkbox.checked = !!todo.done; checkbox.setAttribute("aria-label", "Marcar tarefa como concluída");
+      checkbox.addEventListener("change", () => { todo.done = checkbox.checked; saveTodos(); renderTodos(); });
+      const label = document.createElement("span"); label.textContent = todo.text;
+      const remove = document.createElement("button"); remove.type = "button"; remove.className = "todo-delete"; remove.textContent = "×"; remove.setAttribute("aria-label", "Excluir tarefa");
+      remove.addEventListener("click", () => { todos = todos.filter(t => t.id !== todo.id); saveTodos(); renderTodos(); });
+      item.append(checkbox, label, remove); list.appendChild(item);
+    });
+  }
+  on("#todo-form", "submit", event => {
+    event.preventDefault();
+    const input = $("#todo-input"); const value = input?.value.trim();
+    if (!value) { setText("#todo-feedback", "Digite uma tarefa antes de adicionar."); input?.focus(); return; }
+    todos.unshift({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,7), text: value, done: false });
+    saveTodos(); renderTodos(); input.value = ""; setText("#todo-feedback", "Tarefa adicionada!"); input.focus();
+  });
+  on("#todo-clear-done", "click", () => { todos = todos.filter(t => !t.done); saveTodos(); renderTodos(); setText("#todo-feedback", "Tarefas concluídas removidas."); });
+  renderTodos();
+
+  // Pomodoro: alterna foco e pausas sem depender de contagem por intervalos acumulados
+  let pomoDuration = 25 * 60, pomoRemaining = pomoDuration, pomoRunning = false, pomoEndAt = 0;
+  const pomoStartButton = $("#pomodoro-start");
+  function renderPomodoro() {
+    const remaining = pomoRunning ? Math.max(0, Math.ceil((pomoEndAt - Date.now()) / 1000)) : pomoRemaining;
+    const minutes = Math.floor(remaining / 60), seconds = remaining % 60;
+    setText("#pomodoro-display", String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0"));
+    const progress = $("#pomodoro-progress");
+    if (progress) progress.style.width = Math.max(0, Math.min(100, remaining / pomoDuration * 100)) + "%";
+    if (pomoRunning && remaining <= 0) {
+      pomoRunning = false; pomoRemaining = 0; setText("#pomodoro-start", "Começar de novo");
+      setText("#pomodoro-status", "Tempo concluído! Faça uma pausa e cuide de você.");
+      if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") new Notification("Pomodoro concluído", { body: "Seu bloco de tempo terminou." });
+    }
+  }
+  $("[data-pomo-minutes]").forEach(button => button.addEventListener("click", () => {
+    pomoRunning = false; pomoDuration = Number(button.dataset.pomoMinutes) * 60; pomoRemaining = pomoDuration;
+    $("[data-pomo-minutes]").forEach(b => b.classList.toggle("is-active", b === button));
+    setText("#pomodoro-start", "Começar foco"); setText("#pomodoro-status", "Novo bloco pronto."); renderPomodoro();
+  }));
+  on("#pomodoro-start", "click", () => {
+    if (pomoRunning) { pomoRemaining = Math.max(0, Math.ceil((pomoEndAt - Date.now()) / 1000)); pomoRunning = false; setText("#pomodoro-start", "Continuar"); setText("#pomodoro-status", "Temporizador pausado."); }
+    else { if (pomoRemaining <= 0) pomoRemaining = pomoDuration; pomoEndAt = Date.now() + pomoRemaining * 1000; pomoRunning = true; setText("#pomodoro-start", "Pausar"); setText("#pomodoro-status", "Foco em andamento. Você consegue!"); }
+    renderPomodoro();
+  });
+  on("#pomodoro-reset", "click", () => { pomoRunning = false; pomoRemaining = pomoDuration; setText("#pomodoro-start", "Começar foco"); setText("#pomodoro-status", "Temporizador reiniciado."); renderPomodoro(); });
+  window.setInterval(renderPomodoro, 250);
+
+  // Calculadora básica, sem executar código arbitrário
+  let calcCurrent = "0", calcStored = null, calcOperator = null, calcNewEntry = true;
+  function renderCalculator() { setText("#calc-display", calcCurrent.length > 14 ? Number(calcCurrent).toPrecision(8) : calcCurrent); }
+  function calculate(a, b, operator) {
+    if (operator === "+") return a + b;
+    if (operator === "-") return a - b;
+    if (operator === "*") return a * b;
+    if (operator === "/") return b === 0 ? NaN : a / b;
+    return b;
+  }
+  $("[data-calc]").forEach(button => button.addEventListener("click", () => {
+    const action = button.dataset.calc, value = button.dataset.value;
+    if (action === "clear") { calcCurrent = "0"; calcStored = null; calcOperator = null; calcNewEntry = true; setText("#calc-feedback", ""); }
+    else if (action === "digit") { if (calcNewEntry || calcCurrent === "0" || calcCurrent === "Erro") calcCurrent = value; else if (calcCurrent.replace("-","").length < 14) calcCurrent += value; calcNewEntry = false; }
+    else if (action === "decimal") { if (calcNewEntry || calcCurrent === "Erro") { calcCurrent = "0."; calcNewEntry = false; } else if (!calcCurrent.includes(".")) calcCurrent += "."; }
+    else if (action === "sign") { if (calcCurrent !== "0" && calcCurrent !== "Erro") calcCurrent = String(Number(calcCurrent) * -1); }
+    else if (action === "percent") { if (calcCurrent !== "Erro") calcCurrent = String(Number(calcCurrent) / 100); }
+    else if (action === "operator") {
+      if (calcCurrent === "Erro") return;
+      const current = Number(calcCurrent);
+      if (calcStored !== null && calcOperator && !calcNewEntry) { const result = calculate(calcStored, current, calcOperator); calcCurrent = Number.isFinite(result) ? String(Number(result.toPrecision(12))) : "Erro"; calcStored = calcCurrent === "Erro" ? null : Number(calcCurrent); }
+      else calcStored = current;
+      calcOperator = value; calcNewEntry = true;
+    } else if (action === "equals") {
+      if (calcStored !== null && calcOperator && calcCurrent !== "Erro") {
+        const result = calculate(calcStored, Number(calcCurrent), calcOperator);
+        calcCurrent = Number.isFinite(result) ? String(Number(result.toPrecision(12))) : "Erro";
+        calcStored = null; calcOperator = null; calcNewEntry = true;
+        setText("#calc-feedback", calcCurrent === "Erro" ? "Não é possível dividir por zero." : "Resultado calculado.");
+      }
+    }
+    renderCalculator();
+  }));
+  renderCalculator();
+
+  // Gerador de senha: usa a fonte criptográfica do navegador quando disponível
+  const passwordLength = $("#password-length");
+  function updatePasswordLength() { setText("#password-length-label", passwordLength?.value || "16"); }
+  on("#password-length", "input", updatePasswordLength);
+  on("#password-generate", "click", () => {
+    let pool = "";
+    if ($("#password-upper")?.checked) pool += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if ($("#password-lower")?.checked) pool += "abcdefghijklmnopqrstuvwxyz";
+    if ($("#password-numbers")?.checked) pool += "0123456789";
+    if ($("#password-symbols")?.checked) pool += "!@#$%&*+-=?_";
+    if (!pool) { setText("#password-feedback", "Selecione pelo menos um tipo de caractere."); return; }
+    const length = Number(passwordLength?.value || 16);
+    let password = "";
+    try {
+      const bytes = new Uint32Array(length);
+      if (window.crypto?.getRandomValues) window.crypto.getRandomValues(bytes);
+      else for (let i = 0; i < length; i++) bytes[i] = Math.floor(Math.random() * 4294967296);
+      for (let i = 0; i < length; i++) password += pool[bytes[i] % pool.length];
+    } catch {
+      for (let i = 0; i < length; i++) password += pool[Math.floor(Math.random() * pool.length)];
+    }
+    const out = $("#password-output"); if (out) out.value = password;
+    setText("#password-feedback", "Senha gerada localmente. Guarde-a em um gerenciador de senhas.");
+  });
+  on("#password-copy", "click", () => copyText($("#password-output")?.value || "", "#password-feedback", "Senha copiada!"));
+  updatePasswordLength();
+  
   setText("#current-year", String(new Date().getFullYear()));
   renderHistory();
   setText("#app-status", "JavaScript carregado");
