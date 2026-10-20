@@ -90,3 +90,29 @@ The starter implementation and repository documentation are in place. See the ro
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE).
+
+
+## Web interface
+
+The repository also includes a responsive dark-themed website built with plain HTML, CSS, and JavaScript.
+
+- `index.html` — landing page and interactive greeting form.
+- `style.css` — responsive styling and accessibility-friendly states.
+- `script.js` — personalized greetings, copy button, mobile menu, and dynamic year.
+- `favicon.svg` — browser tab icon.
+
+### Run the website locally
+
+Open `index.html` in a modern browser, or start a local server from the project root:
+
+```bash
+python -m http.server 8000
+```
+
+Then open http://localhost:8000.
+
+### Publish with GitHub Pages
+
+Follow the full guide in [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md). In short, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/(root)`, then save. The public URL becomes available after Pages is enabled and deployment completes.
+
+See [the web interface specification](docs/WEB_SPEC.md) for behavior and acceptance criteria.
