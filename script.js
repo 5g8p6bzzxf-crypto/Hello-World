@@ -194,6 +194,155 @@
     });
   });
 
+
+  // Developer toolbox: text conversion
+  const textToolInput = document.querySelector("#text-tool-input");
+  const textToolCount = document.querySelector("#text-tool-count");
+  const textToolFeedback = document.querySelector("#text-tool-feedback");
+  let textToolResult = "";
+  textToolInput.addEventListener("input", () => {
+    textToolResult = textToolInput.value;
+    textToolCount.textContent = `${textToolInput.value.length} caracteres`;
+    textToolFeedback.textContent = "";
+  });
+  document.querySelectorAll("[data-text-mode]").forEach(button => {
+    button.addEventListener("click", () => {
+      const value = textToolInput.value;
+      const mode = button.dataset.textMode;
+      if (mode === "upper") textToolResult = value.toLocaleUpperCase("pt-BR");
+      else if (mode === "lower") textToolResult = value.toLocaleLowerCase("pt-BR");
+      else textToolResult = value.toLocaleLowerCase("pt-BR").replace(/(^|[.!?]\\s+)(\\p{L})/gu, (match, prefix, letter) => prefix + letter.toLocaleUpperCase("pt-BR"));
+      textToolInput.value = textToolResult;
+      textToolCount.textContent = `${textToolResult.length} caracteres`;
+      textToolFeedback.textContent = "Texto transformado.";
+    });
+  });
+  document.querySelector("#copy-text-result").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(textToolResult || textToolInput.value); textToolFeedback.textContent = "Texto copiado!"; }
+    catch { textToolFeedback.textContent = "A cópia automática não está disponível neste contexto."; }
+  });
+
+  // Color picker and HEX validation
+  const colorPicker = document.querySelector("#color-picker");
+  const hexValue = document.querySelector("#hex-value");
+  const colorStage = document.querySelector("#color-stage");
+  const colorFeedback = document.querySelector("#color-feedback");
+  function setColor(value) {
+    const normalized = value.trim().startsWith("#") ? value.trim() : "#" + value.trim();
+    if (!/^#[0-9a-fA-F]{6}$/.test(normalized)) {
+      colorFeedback.textContent = "Digite um HEX válido, como #A78BFA.";
+      return false;
+    }
+    const upper = normalized.toUpperCase();
+    colorPicker.value = upper;
+    hexValue.value = upper;
+    colorStage.style.background = upper;
+    colorFeedback.textContent = "Cor validada: " + upper;
+    return true;
+  }
+  colorPicker.addEventListener("input", () => setColor(colorPicker.value));
+  hexValue.addEventListener("change", () => setColor(hexValue.value));
+  document.querySelector("#copy-hex").addEventListener("click", async () => {
+    if (!setColor(hexValue.value)) return;
+    try { await navigator.clipboard.writeText(hexValue.value); colorFeedback.textContent = "HEX copiado: " + hexValue.value; }
+    catch { colorFeedback.textContent = "Cor válida; a cópia automática não está disponível."; }
+  });
+  setColor(hexValue.value);
+
+  // Notes are saved locally, with no network request.
+  const notesInput = document.querySelector("#notes-input");
+  const notesCount = document.querySelector("#notes-count");
+  const notesStatus = document.querySelector("#notes-status");
+  const NOTES_KEY = "hello-world-notes-v1";
+  try { notesInput.value = localStorage.getItem(NOTES_KEY) || ""; } catch {}
+  function updateNotesCount() { notesCount.textContent = `${notesInput.value.length} caracteres`; }
+  updateNotesCount();
+  notesInput.addEventListener("input", () => {
+    updateNotesCount();
+    try { localStorage.setItem(NOTES_KEY, notesInput.value); notesStatus.textContent = "Salvo neste navegador ✓"; }
+    catch { notesStatus.textContent = "Não foi possível salvar localmente"; }
+  });
+  document.querySelector("#clear-notes").addEventListener("click", () => {
+    notesInput.value = "";
+    try { localStorage.removeItem(NOTES_KEY); notesStatus.textContent = "Notas apagadas"; }
+    catch { notesStatus.textContent = "Não foi possível apagar o armazenamento"; }
+    updateNotesCount();
+  });
+  document.querySelector("#download-notes").addEventListener("click", () => {
+    const blob = new Blob([notesInput.value], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "minhas-notas.txt"; a.click();
+    URL.revokeObjectURL(url);
+    notesStatus.textContent = "Download iniciado";
+  });
+
+  // Local clock and stopwatch. Elapsed time uses performance.now() to reduce drift.
+  const clockDisplay = document.querySelector("#clock-display");
+  const clockDate = document.querySelector("#clock-date");
+  function updateClock() {
+    const now = new Date();
+    clockDisplay.textContent = now.toLocaleTimeString("pt-BR", {hour12:false});
+    clockDate.textContent = now.toLocaleDateString("pt-BR", {weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+  }
+  updateClock();
+  window.setInterval(updateClock, 1000);
+  const stopwatchDisplay = document.querySelector("#stopwatch-display");
+  const stopwatchStart = document.querySelector("#stopwatch-start");
+  const stopwatchReset = document.querySelector("#stopwatch-reset");
+  const stopwatchStatus = document.querySelector("#stopwatch-status");
+  let stopwatchRunning = false;
+  let stopwatchStartedAt = 0;
+  let stopwatchElapsed = 0;
+  function renderStopwatch() {
+    const elapsed = stopwatchElapsed + (stopwatchRunning ? performance.now() - stopwatchStartedAt : 0);
+    const tenths = Math.floor(elapsed / 100);
+    const minutes = Math.floor(tenths / 600);
+    const seconds = Math.floor((tenths % 600) / 10);
+    const tenth = tenths % 10;
+    stopwatchDisplay.textContent = `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}.${tenth}`;
+  }
+  window.setInterval(renderStopwatch, 100);
+  stopwatchStart.addEventListener("click", () => {
+    if (stopwatchRunning) {
+      stopwatchElapsed += performance.now() - stopwatchStartedAt;
+      stopwatchRunning = false;
+      stopwatchStart.textContent = "Continuar";
+      stopwatchStatus.textContent = "Cronômetro pausado";
+    } else {
+      stopwatchStartedAt = performance.now();
+      stopwatchRunning = true;
+      stopwatchStart.textContent = "Pausar";
+      stopwatchStatus.textContent = "Cronômetro em execução";
+    }
+    renderStopwatch();
+  });
+  stopwatchReset.addEventListener("click", () => {
+    stopwatchRunning = false;
+    stopwatchElapsed = 0;
+    stopwatchStartedAt = 0;
+    stopwatchStart.textContent = "Iniciar";
+    stopwatchStatus.textContent = "Cronômetro zerado";
+    renderStopwatch();
+  });
+
+  // Copyable examples in common starter languages.
+  const snippetLanguage = document.querySelector("#snippet-language");
+  const snippetCode = document.querySelector("#snippet-code");
+  const snippetFeedback = document.querySelector("#snippet-feedback");
+  const snippets = {
+    javascript: 'console.log("Hello, World!");',
+    python: 'print("Hello, World!")',
+    html: '<!doctype html>\\n<html lang="pt-BR">\\n  <body>Hello, World!</body>\\n</html>',
+    bash: 'printf "Hello, World!\\n"'
+  };
+  function updateSnippet() { snippetCode.textContent = snippets[snippetLanguage.value]; snippetFeedback.textContent = ""; }
+  snippetLanguage.addEventListener("change", updateSnippet);
+  document.querySelector("#copy-snippet").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(snippetCode.textContent); snippetFeedback.textContent = "Código copiado!"; }
+    catch { snippetFeedback.textContent = "Selecione o código e copie manualmente."; }
+  });
+
   currentYear.textContent = String(new Date().getFullYear());
   renderHistory();
 })();
