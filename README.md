@@ -125,3 +125,8 @@ See [the web interface specification](docs/WEB_SPEC.md) for behavior and accepta
 - Character counter and greeting history stored locally in your browser.
 - Restore previous greetings, clear history, or export it as JSON.
 - The history is local to the browser; it is not uploaded to the repository or a server.
+
+
+## Developer toolbox
+
+The browser UI also includes a local text case converter, HEX color laboratory, autosaving notes with `.txt` export, local clock, stopwatch, and copyable Hello World snippets for JavaScript, Python, HTML, and Bash. These tools run in the browser; notes are saved only in local browser storage.
